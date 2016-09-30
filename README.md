@@ -52,6 +52,6 @@ Your fluent.conf should look like this:
 
 # (3) Output to stdout
 <match modsec-formatted>
-  type stdout
+  @type stdout
 </match>
 ```
