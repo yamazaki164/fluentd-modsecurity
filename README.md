@@ -35,16 +35,17 @@ Your fluent.conf should look like this:
 ```
 # (1) Consume the input
 <source>
-  type tail_multiline
+  @type tail
   tag raw-modsec
-  format /(?<message>.*)/
+  format multiline
   format_firstline /^--[a-fA-F0-9]{8}-A--$/
+  format1 /(?<message>.*)/
   path /path/to/your/modsecurity_audit.log
 </source>
 
 # (2) Massage it via this plugin to a more structured object
 <match raw-modsec>
-  type modsecurity-audit-format
+  @type modsecurity-audit-format
   geoipDBFilePath /path/to/GeoLiteCity.dat
   tag modsec-formatted
 </match>
