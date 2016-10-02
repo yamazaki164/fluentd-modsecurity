@@ -13,6 +13,6 @@ Gem::Specification.new do |s|
 
   s.files         = ["lib/fluent/plugin/out_modsecurity-audit-format.rb"]
   
-  s.add_development_dependency "fluentd"
-  s.add_runtime_dependency "fluentd"
+  s.add_dependency "fluentd", '~> 0.12'
+  s.add_dependency "geoip", '~> 1.6'
 end
