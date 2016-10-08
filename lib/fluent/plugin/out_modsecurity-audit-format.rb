@@ -1,7 +1,3 @@
-# @see https://github.com/mtodd/geoip
-require 'geoip'
-
-
 #############################################
 #
 # Example Modsecurity output plugin for 
@@ -18,7 +14,6 @@ class ModsecurityAuditFormat < Fluent::Output
   def configure(conf)
     super
     @tag = conf['tag']
-    @geoip = GeoIP::City.new(conf['geoipDBFilePath'])
   end
 
    # Convert the raw message and re-emit
@@ -152,12 +147,7 @@ class ModsecurityAuditFormat < Fluent::Output
            
        if hash['raw_requestHeaders'] =~ /X-Forwarded-For:/
           matchData = hash['raw_requestHeaders'].match(/X-Forwarded-For: (?<XForwardedFor>.+)$/)
-          hash = hash.merge(Hash[matchData.names.zip(matchData.captures)]) 
-          
-               
-          # grab real geoip info
-          hash['XForwardedFor-GEOIP'] = @geoip.look_up(hash['XForwardedFor'])
-          
+          hash = hash.merge(Hash[matchData.names.zip(matchData.captures)])
        end 
        
        # example of getting a custom cookie and promoting to 1st class field

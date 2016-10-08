@@ -20,10 +20,7 @@ More info and example output: http://bitsofinfo.wordpress.com/2013/11/11/modsecu
 
 To install this output filter plugin:
 
-(1) Install geoip support, instructions here: https://github.com/mtodd/geoip
-
-
-(2) Run the following commands from the root of this project
+(1) Run the following commands from the root of this project
 
 ```
 gem build fluent-plugin-modsecurity.gemspec
@@ -46,7 +43,6 @@ Your fluent.conf should look like this:
 # (2) Massage it via this plugin to a more structured object
 <match raw-modsec>
   @type modsecurity-audit-format
-  geoipDBFilePath /path/to/GeoLiteCity.dat
   tag modsec-formatted
 </match>
 
