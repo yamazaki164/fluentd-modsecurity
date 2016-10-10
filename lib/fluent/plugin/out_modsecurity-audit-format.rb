@@ -141,7 +141,7 @@ class ModsecurityAuditFormat < Fluent::Output
      # request headers
      if section =~ /.+\n(?m).+/
        
-       matchData = section.match(/.+\n(?m)(?<raw_requestHeaders>.+)/)
+       matchData = section.match(/.+\n(?m)(?<raw_request_headers>.+)/)
        hash = hash.merge(Hash[matchData.names.zip(matchData.captures)])
        
            
@@ -197,7 +197,7 @@ class ModsecurityAuditFormat < Fluent::Output
        hash = Hash[ matchData.names.zip(matchData.captures)]
        
        # response headers
-       matchData = section.match(/.+\n(?m)(?<raw_responseHeaders>.+)/)
+       matchData = section.match(/.+\n(?m)(?<raw_response_headers>.+)/)
        hash = hash.merge(Hash[ matchData.names.zip(matchData.captures)])
        
        hash['response_headers'] = Hash.new
