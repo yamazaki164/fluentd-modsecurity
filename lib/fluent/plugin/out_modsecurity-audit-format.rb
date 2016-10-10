@@ -116,7 +116,7 @@ class ModsecurityAuditFormat < Fluent::Output
      if section.nil?
         return Hash.new
      end
-     matchData = section.match(/\[(?<modsec_timestamp>.+)\]\s(?<uniqueId>.+)\s(?<sourceIp>.+)\s(?<sourcePort>.+)\s(?<destIp>.+)\s(?<destPort>.+)/)
+     matchData = section.match(/\[(?<modsec_timestamp>.+)\]\s(?<unique_id>.+)\s(?<source_ip>.+)\s(?<source_port>.+)\s(?<dest_ip>.+)\s(?<dest_port>.+)/)
      hash = Hash[matchData.names.zip(matchData.captures)]
      return hash
   end
@@ -128,12 +128,12 @@ class ModsecurityAuditFormat < Fluent::Output
      # line #1
      if section =~ /.*?\s\S+\s.+\n{1}/
     
-       matchData = section.match(/(?<httpMethod>.*?)\s(?<requestedUri>\S+)\s(?<incomingProtocol>.+)\n{1}/)
+       matchData = section.match(/(?<http_method>.*?)\s(?<requested_uri>\S+)\s(?<incoming_protocol>.+)\n{1}/)
        hash = hash.merge(Hash[matchData.names.zip(matchData.captures)])
        
      else 
        
-       matchData = section.match(/(?<httpMethod>^(.*)$)/)
+       matchData = section.match(/(?<http_method>^(.*)$)/)
        hash = hash.merge(Hash[matchData.names.zip(matchData.captures)])
 
      end
@@ -146,13 +146,13 @@ class ModsecurityAuditFormat < Fluent::Output
        
            
        if hash['raw_request_headers'] =~ /X-Forwarded-For:/
-          matchData = hash['raw_request_headers'].match(/X-Forwarded-For: (?<XForwardedFor>.+)$/)
+          matchData = hash['raw_request_headers'].match(/X-Forwarded-For: (?<x_forwarded_for>.+)$/)
           hash = hash.merge(Hash[matchData.names.zip(matchData.captures)])
        end 
        
        # example of getting a custom cookie and promoting to 1st class field
        if hash['raw_request_headers'] =~ /Cookie:/ and hash['raw_request_headers'] =~ /myCookie=.+\b/
-          matchData = hash['raw_request_headers'].match(/(?<myCookie>myCookie[^; \s]+)/)
+          matchData = hash['raw_request_headers'].match(/(?<my_cookie>myCookie[^; \s]+)/)
           hash = hash.merge(Hash[matchData.names.zip(matchData.captures)]) 
        end 
        
@@ -176,7 +176,7 @@ class ModsecurityAuditFormat < Fluent::Output
     
      if section =~ /.+/
     
-       matchData = section.match(/(?<requestBody>.+)/)
+       matchData = section.match(/(?<request_body>.+)/)
        hash = Hash[ matchData.names.zip(matchData.captures)]
        return hash
        
@@ -193,7 +193,7 @@ class ModsecurityAuditFormat < Fluent::Output
      if section =~ /.+/
        
        # line 1
-       matchData = section.match(/(?<serverProtocol>.+?)\s(?<responseStatus>.+)\n{1}/)
+       matchData = section.match(/(?<server_protocol>.+?)\s(?<response_status>.+)\n{1}/)
        hash = Hash[ matchData.names.zip(matchData.captures)]
        
        # response headers
@@ -303,7 +303,7 @@ class ModsecurityAuditFormat < Fluent::Output
        
        matchedRules_array.each do |entry|
          if entry.match(/^SecRule /) and entry.match(/,id:/)
-           secRuleIds.push(/,id:(?<ruleId>\d+)/.match(entry)[:ruleId])
+           secRuleIds.push(/,id:(?<rule_id>\d+)/.match(entry)[:ruleId])
          end
        end
        
