@@ -258,14 +258,14 @@ class ModsecurityAuditFormat < Fluent::Output
         
         
         #key/value pair of audit log trailer
-       hash['auditLogTrailer'] = Hash.new
+       hash['audit_log_trailer'] = Hash.new
        section.split(/\n/).each do |line|
             parts = line.split(/:\s/)
-            hash['auditLogTrailer'][parts[0].strip] = parts[1].strip
+            hash['audit_log_trailer'][parts[0].strip] = parts[1].strip
        end
        
-       hash['auditLogTrailer'].delete('Message')
-       hash['auditLogTrailer']['messages'] = auditLogTrailerMessages
+       hash['audit_log_trailer'].delete('Message')
+       hash['audit_log_trailer']['messages'] = auditLogTrailerMessages
         
      end
      
