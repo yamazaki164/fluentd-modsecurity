@@ -159,7 +159,7 @@ class ModsecurityAuditFormat < Fluent::Output
        # split all request headers into a sub-map
        hash['request_headers'] = Hash.new
        hash['raw_request_headers'].split(/\n/).each do |header|
-            parts = header.split(/:/)
+            parts = header.split(/:/, 2)
             hash['request_headers'][parts[0].strip] = parts[1].strip
        end
        
@@ -202,7 +202,7 @@ class ModsecurityAuditFormat < Fluent::Output
        
        hash['response_headers'] = Hash.new
        hash['raw_response_headers'].split(/\n/).each do |header|
-            parts = header.split(/:/)
+            parts = header.split(/:/, 2)
             hash['response_headers'][parts[0].strip] = parts[1].strip
        end
        
